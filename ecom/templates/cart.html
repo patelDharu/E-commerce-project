@@ -1,0 +1,170 @@
+{% extends "masternav.html" %}
+{% block content1 %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-commerce</title>
+    <link
+      rel="stylesheet"
+      45
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href={% static "CSS/ecom.css" %} />
+
+  </head>
+  <body>
+    
+    <!--====================== Cart Section ======================-->
+    <div class="container mt-5">
+      <h1 class="mb-4">Your Shopping Cart</h1>
+      <div class="row">
+        <div class="col-md-8">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th class="align-bottom pb-2">
+                  {% if cartdata %}
+                  <a href={% url "allproductremove" %}>
+                  <button class="btn btn-outline-danger">Remove All</button>
+                  </a>
+                  {% endif %}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in cartdata %}
+              <tr class="align-content-center">
+                <td>
+                  <img src="{{i.proid.image.url}}" alt="" height="200px" width="200px" />
+                </td>
+                <td>₹{{i.proid.price}}</td>
+                <td>
+                  <a href={% url "additem" i.id %}><button class="increase items-count btn mr-1" type="button">
+                    <i class="fa fa-plus text-dark"></i></button ></a>
+                    
+                    <button class="border-0 btn">{{i.qty}}</button>
+                    <a href={% url "delitem" i.id %}>
+                  <button class="increase items-count btn" type="button">
+                    <i class="fa fa-minus text-dark"></i>
+                  </button></a>
+                </td>
+                <td>₹{{i.totalprice}}</td>
+                <td class="align-bottom pb-3">
+                  <a href={% url "delproduct" i.id %}>
+                  <button class="btn btn-outline-danger">Remove</button>
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-3 ml-auto mt-0 pt-0">
+          <!-- <div class="card border-0">
+            <a href="" class="ml-auto"
+              ><i class="fa-solid fa-xmark-circle text-dark"></i
+            ></a>
+            <hr />
+            <img
+              class="card-img"
+              src="Img/3671942.jpg"
+              alt=""
+              height="200px"
+              width="200px"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Name</h5>
+              <p>
+                Description : Lorem ipsum dolor sit amet consectetur
+                adipisicing.
+              </p>
+              <p>Price : ₹55</p>
+              <p>Quantity: 2</p>
+              <hr />
+              <p><b>Total: </b>₹55.00</p>
+            </div>
+          </div> -->
+          {% if cartdata %}
+          <div class="card p-2">
+            <div class="card-body">
+              <h5 class="card-title">Summary</h5>
+              <hr />
+              <p><strong>Total: </strong>₹{{grandtotal}}</p>
+              <a href={% url "checkout" %}>
+                 <button class="btn btn-outline-success btn-block">
+                Checkout
+              </button>
+            </a>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% if out_of_stock %}
+       <script>
+           alert("{{out_of_stock}}")
+       </script>
+   {% endif %}
+  
+    <!--======================Footer Section======================-->
+    <footer class="bg-dark text-light py-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <h5>Contact Us</h5>
+            <p>Email: info@example.com</p>
+            <p>Phone: 123-456-7890</p>
+          </div>
+          <div class="col-md-4">
+            <h5>Links</h5>
+            <ul class="list-unstyled">
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Products</a></li>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Contact Us</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h5>Follow Us</h5>
+            <ul class="list-inline">
+              <li class="list-inline-item">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col text-center">
+            <p>&copy; 2023 Your E-Commerce Store</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+{% endblock content1 %}
